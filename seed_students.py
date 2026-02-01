@@ -81,62 +81,38 @@ def seed_students():
         print("🌱 IMPORTING REAL STUDENTS FROM CSV FILES")
         print("=" * 60)
         
-        added_count = 0
-        skipped_count = 0
+        total_added = 0
+        total_skipped = 0
         
-        print("📝 Adding students to database...")
-        print("-" * 60)
-        
-        for student_data in SAMPLE_STUDENTS:
-            # Check if student already exists
-            existing = db.query(Student).filter(
-                Student.roll_number == student_data["roll_number"]
-            ).first()
-            
-            if existing:
-                print(f"⏭️  Skipped: {student_data['roll_number']} - {student_data['name']} (already exists)")
-                skipped_count += 1
-                continue
-            
-            # Create new student
-            student = Student(
-                roll_number=student_data["roll_number"],
-                name=student_data["name"],
-                hashed_password=hash_password(student_data["password"])
-            )
-            
-            db.add(student)
-            print(f"✅ Added: {student_data['roll_number']} - {student_data['name']}")
-            added_count += 1
+        # Import from each CSV file
+        for csv_file in CSV_FILES:
+            added, skipped = import_from_csv(db, csv_file)
+            total_added += added
+            total_skipped += skipped
         
         # Commit all changes
         db.commit()
         
         print()
         print("=" * 60)
-        print("📊 SEEDING SUMMARY")
+        print("📊 IMPORT SUMMARY")
         print("=" * 60)
-        print(f"✅ Successfully added: {added_count} students")
-        print(f"⏭️  Skipped existing: {skipped_count} students")
+        print(f"✅ Successfully added: {total_added} students")
+        print(f"⏭️  Skipped: {total_skipped} students (already existed)")
         print(f"📈 Total students in database: {db.query(Student).count()}")
         print("=" * 60)
-        print()
         
-        if added_count > 0:
-            print("🎉 Seeding completed successfully!")
+        if total_added > 0:
             print()
-            print("📝 Sample Login Credentials:")
-            print(f"   Roll Number: {SAMPLE_STUDENTS[0]['roll_number']}")
-            print(f"   Password: {SAMPLE_STUDENTS[0]['password']}")
+            print("🎉 Students imported successfully!")
             print()
-            print("🔐 Admin Login Credentials:")
-            print("   Username: xoumyax or YuZhiyuan")
-            print("   Password: admin")
-            print()
-            print("🚀 You can now start the server with: python run.py")
+            print("📝 Next steps:")
+            print("   1. Students go to /student/register")
+            print("   2. Enter Name and UIN exactly as in Canvas")
+            print("   3. Set their password")
         
     except Exception as e:
-        print(f"❌ Error occurred: {e}")
+        print(f"❌ Error during import: {e}")
         db.rollback()
         sys.exit(1)
     finally:
@@ -147,5 +123,5 @@ if __name__ == "__main__":
     try:
         seed_students()
     except KeyboardInterrupt:
-        print("\n\n❌ Seeding interrupted by user.")
+        print("\n\n❌ Import interrupted by user.")
         sys.exit(1)
