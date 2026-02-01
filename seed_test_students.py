@@ -59,11 +59,33 @@ def seed_test_students():
             print(f"   UIN: {test2_uin}")
             print(f"   Password: test123")
         
+        # Test Student 3 (Unregistered - for testing full registration flow)
+        test3_uin = "999999993"
+        existing3 = db.query(Student).filter(Student.uin == test3_uin).first()
+        
+        if existing3:
+            print(f"⏭️  Test student 3 already exists (UIN: {test3_uin})")
+        else:
+            student3 = Student(
+                uin=test3_uin,
+                name="puffyboo",
+                hashed_password="",  # Empty password - not registered yet
+                is_registered=False
+            )
+            db.add(student3)
+            print(f"✅ Created test student 3 (UNREGISTERED):")
+            print(f"   Name: puffyboo")
+            print(f"   UIN: {test3_uin}")
+            print(f"   Status: Not registered - must complete registration first")
+        
         db.commit()
         print("\n🎉 Test students ready!")
-        print("\n📝 You can now login with:")
+        print("\n📝 Pre-registered students (can login directly):")
         print("   UIN: 999999991 | Password: test123")
         print("   UIN: 999999992 | Password: test123")
+        print("\n📝 Unregistered student (must register first):")
+        print("   Name: puffyboo | UIN: 999999993")
+        print("   → Go to /student/register to complete registration")
         
     except Exception as e:
         print(f"❌ Error seeding test students: {e}")
