@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Attendance Wizard</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="container">
+            <div class="header">
+                <div class="wizard-icon">⚡</div>
+                <h1>Admin Dashboard</h1>
+                <p class="subtitle" id="adminName">Loading...</p>
+            </div>
+
+            <div id="alertBox"></div>
+
+            <!-- Statistics Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Total Students</h3>
+                    <div class="stat-value" id="totalStudents">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Sessions</h3>
+                    <div class="stat-value" id="totalSessions">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Attendances</h3>
+                    <div class="stat-value" id="totalAttendances">0</div>
+                </div>
+            </div>
+
+            <!-- Testing Mode Toggle -->
+            <div class="card">
+                <h2>⚙️ Settings</h2>
+                <div class="toggle-container">
+                    <label>
+                        <strong>Disable Time Restrictions</strong>
+                        <br>
+                        <small>Allow attendance marking all day for testing</small>
+                    </label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="timeRestrictionToggle" onchange="updateSettings()">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Session Management -->
+            <div class="card">
+                <h2>📅 Session Management</h2>
+                <button onclick="createTestSessions()" class="btn">Create 2 Test Sessions (Today)</button>
+                <button onclick="createRegularSessions()" class="btn btn-secondary">Create 30 Regular Sessions</button>
+                <button onclick="loadTodaySessions()" class="btn btn-secondary">View Today's Sessions</button>
+            </div>
+
+            <!-- Today's Sessions -->
+            <div class="card" id="todaySessionsCard" style="display: none;">
+                <h2>📍 Today's Sessions</h2>
+                <div id="todaySessionsList"></div>
+            </div>
+
+            <!-- Token Generation -->
+            <div class="card">
+                <h2>🎫 Generate Token</h2>
+                <div class="form-group">
+                    <label for="tokenSessionSelect">Select Session</label>
+                    <select id="tokenSessionSelect">
+                        <option value="">Loading sessions...</option>
+                    </select>
+                </div>
+                <button onclick="generateToken()" class="btn btn-success">Generate Token</button>
+                <div id="generatedToken" style="display: none; margin-top: 20px;">
+                    <div class="info-box">
+                        <h3 style="margin-bottom: 10px;">Generated Token:</h3>
+                        <div style="font-size: 32px; font-weight: bold; text-align: center; color: #667eea; margin: 15px 0;" id="tokenDisplay"></div>
+                        <p><strong>Expires:</strong> <span id="tokenExpiry"></span></p>
+                        <p><strong>Valid for:</strong> <span id="tokenValidity"></span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Export -->
+            <div class="card">
+                <h2>📊 Reports</h2>
+                <button onclick="exportExcel()" class="btn">Export Attendance to Excel</button>
+            </div>
+
+            <!-- Token History -->
+            <div class="card">
+                <h2>🎫 Token Generation History</h2>
+                <p style="color: #666; margin-bottom: 15px;">View all generated tokens across all sessions</p>
+                <button onclick="viewTokenHistory()" class="btn btn-secondary">View Complete Token History</button>
+            </div>
+
+            <!-- Recent Attendances -->
+            <div class="card">
+                <h2>🕒 Recent Attendances</h2>
+                <div id="recentAttendances">
+                    <div class="spinner"></div>
+                </div>
+            </div>
+
+            <button onclick="logout()" class="btn btn-danger">Logout</button>
+        </div>
+    </div>
+
+    <!-- Token History Modal -->
+    <div id="tokenHistoryModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; overflow-y: auto;">
+        <div style="max-width: 1000px; margin: 50px auto; background: white; border-radius: 15px; padding: 30px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2>🎫 Token Generation History</h2>
+                <button onclick="closeTokenHistory()" style="background: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer;">Close</button>
+            </div>
+            <div id="tokenHistoryContent">
+                <div class="spinner"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/admin_dashboard.js"></script>
+</body>
+</html>

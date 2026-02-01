@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mark Attendance - Attendance Wizard</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="wizard-icon">📝</div>
+            <h1>Mark Attendance</h1>
+            <p class="subtitle" id="studentName">Loading...</p>
+        </div>
+
+        <div class="clock" id="currentTime">00:00:00</div>
+
+        <div class="status-indicator" id="windowStatus">
+            <span>⏰ Checking attendance window...</span>
+        </div>
+
+        <div id="alertBox"></div>
+
+        <form id="attendanceForm">
+            <div class="form-group">
+                <label for="sessionSelect">Select Session</label>
+                <select id="sessionSelect" required>
+                    <option value="">Loading sessions...</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="token">Session Token (6 digits)</label>
+                <input type="text" id="token" placeholder="Enter token from instructor" 
+                       maxlength="6" pattern="[0-9]{6}" required>
+            </div>
+
+            <button type="submit" class="btn" id="submitBtn" disabled>Submit Attendance</button>
+        </form>
+
+        <button onclick="viewMyRecords()" class="btn btn-secondary">View My Records</button>
+        <a onclick="logout()" class="link">Logout</a>
+    </div>
+
+    <script src="/static/js/student_attendance.js"></script>
+</body>
+</html>
