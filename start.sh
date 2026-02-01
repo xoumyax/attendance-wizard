@@ -10,6 +10,9 @@ python -c "from app.database import engine; from app.models import Base; Base.me
 echo "📊 Seeding sessions..."
 python seed_sessions.py
 
+echo "👥 Seeding real students from CSV..."
+python seed_students.py
+
 echo "👥 Seeding test students..."
 python seed_test_students.py
 
