@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Guide - Attendance Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+    <style>
+        .guide-container {
+            max-width: 900px;
+            margin: 2rem auto;
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        .guide-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 3px solid #667eea;
+        }
+        .guide-header h1 {
+            color: #667eea;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .guide-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        .step {
+            margin-bottom: 2.5rem;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+        }
+        .step-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-right: 1rem;
+        }
+        .step-title {
+            display: inline-block;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        .step-content {
+            margin-left: 56px;
+            color: #555;
+            line-height: 1.8;
+        }
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+        }
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+        }
+        .success-box {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+        }
+        .credential-box {
+            background: #f8f9fa;
+            border: 2px dashed #667eea;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            font-family: monospace;
+        }
+        .button-group {
+            text-align: center;
+            margin: 2rem 0;
+        }
+        .guide-btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+            margin: 0.5rem;
+            transition: transform 0.3s;
+        }
+        .guide-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        .guide-btn.secondary {
+            background: #6c757d;
+        }
+        ul {
+            margin-left: 1.5rem;
+        }
+        ul li {
+            margin: 0.5rem 0;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: #e83e8c;
+        }
+    </style>
+</head>
+<body>
+    <div class="guide-container">
+        <div class="guide-header">
+            <h1>📚 Student User Guide</h1>
+            <p>Complete step-by-step instructions for using the Attendance Tracker</p>
+        </div>
+
+        <!-- First Time Users -->
+        <h2 style="color: #667eea; margin: 2rem 0 1rem 0;">🆕 First Time? Start Here!</h2>
+        
+        <div class="step">
+            <span class="step-number">1</span>
+            <span class="step-title">Register Your Account</span>
+            <div class="step-content">
+                <p>Before you can mark attendance, you need to register:</p>
+                <ul>
+                    <li>Go to the <strong>Registration Page</strong></li>
+                    <li>Enter your <strong>Full Name</strong> exactly as it appears in Canvas (e.g., "Smith, John")</li>
+                    <li>Enter your <strong>9-digit UIN</strong> (University ID Number)</li>
+                    <li>Create a <strong>Password</strong> (minimum 6 characters)</li>
+                    <li>Confirm your password</li>
+                    <li>Click <strong>"Register"</strong></li>
+                </ul>
+                
+                <div class="warning-box">
+                    <strong>⚠️ Important:</strong> Your name and UIN must match our records from Canvas. If you get an error, make sure you're entering your name exactly as shown in Canvas.
+                </div>
+
+                <div class="info-box">
+                    <strong>💡 Tip:</strong> Choose a password you'll remember! You'll need it every time you login.
+                </div>
+
+                <div class="button-group">
+                    <a href="/student/register" class="guide-btn">Go to Registration →</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="step">
+            <span class="step-number">2</span>
+            <span class="step-title">Login to Your Account</span>
+            <div class="step-content">
+                <p>After registration, you can login:</p>
+                <ul>
+                    <li>Go to the <strong>Login Page</strong></li>
+                    <li>Enter your <strong>9-digit UIN</strong></li>
+                    <li>Enter your <strong>Password</strong></li>
+                    <li>Click <strong>"Login"</strong></li>
+                </ul>
+
+                <div class="success-box">
+                    <strong>✅ Test Students:</strong> For testing purposes, you can use:
+                    <div class="credential-box">
+                        UIN: 999999991 | Password: test123<br>
+                        UIN: 999999992 | Password: test123
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <a href="/" class="guide-btn">Go to Login →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Regular Usage -->
+        <h2 style="color: #667eea; margin: 3rem 0 1rem 0;">📝 Marking Attendance</h2>
+
+        <div class="step">
+            <span class="step-number">3</span>
+            <span class="step-title">Get the Token from Your Instructor</span>
+            <div class="step-content">
+                <p>Your instructor will generate a unique 6-digit token during class:</p>
+                <ul>
+                    <li>The instructor will display or announce the token</li>
+                    <li>The token is <strong>ONLY valid for 5 minutes</strong> (regular classes)</li>
+                    <li>Test sessions have 24-hour validity for practice</li>
+                    <li>Write down or remember the 6-digit code</li>
+                </ul>
+
+                <div class="warning-box">
+                    <strong>⏰ Time Restriction:</strong> Regular attendance can only be marked between <strong>8:00 AM - 9:00 AM</strong>. Make sure you're in class on time!
+                </div>
+
+                <div class="info-box">
+                    <strong>💡 Example Token:</strong> <code>123456</code> (6 digits)
+                </div>
+            </div>
+        </div>
+
+        <div class="step">
+            <span class="step-number">4</span>
+            <span class="step-title">Mark Your Attendance</span>
+            <div class="step-content">
+                <p>Once you have the token:</p>
+                <ul>
+                    <li>You'll automatically see today's sessions after login</li>
+                    <li>Select the <strong>current class session</strong></li>
+                    <li>Enter the <strong>6-digit token</strong> provided by instructor</li>
+                    <li>Click <strong>"Mark Attendance"</strong></li>
+                    <li>You'll see a success message if recorded correctly</li>
+                </ul>
+
+                <div class="success-box">
+                    <strong>✅ Success!</strong> Once marked, you cannot mark the same session twice. Your attendance is permanently recorded.
+                </div>
+
+                <div class="warning-box">
+                    <strong>⚠️ Cannot Mark Attendance?</strong> Check:
+                    <ul>
+                        <li>Is it between 8:00 AM - 9:00 AM?</li>
+                        <li>Is the token correct? (no spaces, 6 digits)</li>
+                        <li>Is the token still valid? (not expired)</li>
+                        <li>Have you already marked this session?</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="step">
+            <span class="step-number">5</span>
+            <span class="step-title">View Your Records</span>
+            <div class="step-content">
+                <p>Check your attendance history anytime:</p>
+                <ul>
+                    <li>After logging in, scroll down to see your statistics</li>
+                    <li>View <strong>Total Sessions</strong> (all classes scheduled)</li>
+                    <li>View <strong>Attended Sessions</strong> (classes you've marked)</li>
+                    <li>See your <strong>Attendance Percentage</strong></li>
+                    <li>Check your <strong>Grade Points</strong> (out of 10)</li>
+                </ul>
+
+                <div class="info-box">
+                    <strong>📊 Grading Scale:</strong>
+                    <ul>
+                        <li><strong>10 points:</strong> ≥85% attendance</li>
+                        <li><strong>8 points:</strong> 75-84% attendance</li>
+                        <li><strong>5 points:</strong> 50-74% attendance</li>
+                        <li><strong>0 points:</strong> &lt;50% attendance</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Troubleshooting -->
+        <h2 style="color: #667eea; margin: 3rem 0 1rem 0;">🔧 Troubleshooting</h2>
+
+        <div class="step">
+            <span class="step-number">❓</span>
+            <span class="step-title">Forgot Your Password?</span>
+            <div class="step-content">
+                <p>Don't worry! You can reset it:</p>
+                <ul>
+                    <li>Go to the <strong>Reset Password</strong> page</li>
+                    <li>Enter your <strong>UIN</strong></li>
+                    <li>Enter your <strong>Full Name</strong> (exactly as in Canvas)</li>
+                    <li>Set a <strong>New Password</strong></li>
+                    <li>Click <strong>"Reset Password"</strong></li>
+                    <li>Login with your new password</li>
+                </ul>
+
+                <div class="button-group">
+                    <a href="/student/reset-password" class="guide-btn">Reset Password →</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="step">
+            <span class="step-number">❓</span>
+            <span class="step-title">Common Issues</span>
+            <div class="step-content">
+                <div class="warning-box">
+                    <strong>Problem: "UIN not found"</strong><br>
+                    → Make sure you're enrolled in the course. Contact your instructor if you believe this is an error.
+                </div>
+
+                <div class="warning-box">
+                    <strong>Problem: "Name does not match our records"</strong><br>
+                    → Enter your name EXACTLY as it appears in Canvas, including commas and capitalization (e.g., "Smith, John").
+                </div>
+
+                <div class="warning-box">
+                    <strong>Problem: "Token is invalid or expired"</strong><br>
+                    → The token is only valid for 5 minutes. Get a fresh token from your instructor.
+                </div>
+
+                <div class="warning-box">
+                    <strong>Problem: "Already registered"</strong><br>
+                    → You don't need to register again. Just go to the login page.
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Reference -->
+        <h2 style="color: #667eea; margin: 3rem 0 1rem 0;">⚡ Quick Reference</h2>
+
+        <div class="info-box">
+            <strong>📱 Important Links:</strong>
+            <ul style="margin: 0.5rem 0;">
+                <li><strong>Login:</strong> <a href="/" style="color: #667eea;">/</a></li>
+                <li><strong>Register:</strong> <a href="/student/register" style="color: #667eea;">/student/register</a></li>
+                <li><strong>Reset Password:</strong> <a href="/student/reset-password" style="color: #667eea;">/student/reset-password</a></li>
+                <li><strong>Mark Attendance:</strong> <a href="/attendance" style="color: #667eea;">/attendance</a></li>
+            </ul>
+        </div>
+
+        <div class="success-box">
+            <strong>✅ Remember:</strong>
+            <ul style="margin: 0.5rem 0;">
+                <li>Be in class between <strong>8:00 AM - 9:00 AM</strong></li>
+                <li>Get the token from your instructor</li>
+                <li>Token expires in <strong>5 minutes</strong></li>
+                <li>Maintain <strong>≥85% attendance</strong> for full points</li>
+            </ul>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="button-group" style="margin-top: 3rem;">
+            <a href="/" class="guide-btn">Go to Login</a>
+            <a href="/student/register" class="guide-btn secondary">Register Account</a>
+        </div>
+
+        <p style="text-align: center; color: #999; margin-top: 2rem; font-size: 0.9rem;">
+            Need help? Contact your course instructor.
+        </p>
+    </div>
+</body>
+</html>

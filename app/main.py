@@ -60,6 +60,12 @@ async def student_reset_password_page(request: Request):
     return templates.TemplateResponse("student_reset_password.html", {"request": request})
 
 
+@app.get("/student/guide", response_class=HTMLResponse)
+async def student_guide_page(request: Request):
+    """Student user guide page."""
+    return templates.TemplateResponse("student_guide.html", {"request": request})
+
+
 @app.get("/attendance", response_class=HTMLResponse)
 async def student_attendance_page(request: Request):
     """Student attendance marking page."""

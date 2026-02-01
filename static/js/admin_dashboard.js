@@ -550,6 +550,20 @@ function refreshGrades() {
     showAlert('Grades refreshed', 'success');
 }
 
+// Toggle admin guide
+function toggleAdminGuide() {
+    const guideContent = document.getElementById('adminGuideContent');
+    const guideToggleText = document.getElementById('guideToggleText');
+    
+    if (guideContent.style.display === 'none') {
+        guideContent.style.display = 'block';
+        guideToggleText.textContent = 'Hide Guide';
+    } else {
+        guideContent.style.display = 'none';
+        guideToggleText.textContent = 'Show Guide';
+    }
+}
+
 // Logout
 function logout() {
     localStorage.clear();

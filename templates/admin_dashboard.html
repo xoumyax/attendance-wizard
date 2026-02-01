@@ -108,6 +108,114 @@
                 </div>
             </div>
 
+            <!-- Admin Guide -->
+            <div class="card">
+                <h2>📖 Admin Guide</h2>
+                <p style="color: #666; margin-bottom: 15px;">Quick reference for managing the attendance system</p>
+                <button onclick="toggleAdminGuide()" class="btn btn-secondary">
+                    <span id="guideToggleText">Show Guide</span>
+                </button>
+                
+                <div id="adminGuideContent" style="display: none; margin-top: 20px;">
+                    <div class="guide-section">
+                        <h3 style="color: #667eea;">🎯 Quick Start</h3>
+                        <ol style="line-height: 1.8;">
+                            <li><strong>Create Sessions:</strong> Use "Create 2 Test Sessions" for testing or "Create 30 Regular Sessions" for the semester</li>
+                            <li><strong>Generate Token:</strong> Select today's session and click "Generate Token" - share this 6-digit code with students</li>
+                            <li><strong>Monitor:</strong> Watch the live grades dashboard on the right to see student attendance in real-time</li>
+                            <li><strong>Export:</strong> Download Excel report anytime with "Export Attendance to Excel"</li>
+                        </ol>
+                    </div>
+
+                    <div class="guide-section" style="margin-top: 20px;">
+                        <h3 style="color: #667eea;">⚙️ Settings</h3>
+                        <ul style="line-height: 1.8;">
+                            <li><strong>Time Restrictions:</strong> Regular classes enforce 8:00-9:00 AM attendance window. Disable for testing.</li>
+                            <li><strong>Test Sessions:</strong> Have 24-hour token validity and bypass time restrictions - perfect for demos</li>
+                            <li><strong>Regular Sessions:</strong> Tokens expire in 5 minutes, enforce time window</li>
+                        </ul>
+                    </div>
+
+                    <div class="guide-section" style="margin-top: 20px;">
+                        <h3 style="color: #667eea;">📊 Understanding the Dashboard</h3>
+                        <ul style="line-height: 1.8;">
+                            <li><strong>Total Students:</strong> All students imported from CSV (registered + unregistered)</li>
+                            <li><strong>Live Grades (Right):</strong> Real-time view of all student grades, attendance %, and registration status</li>
+                            <li><strong>Color Codes:</strong>
+                                <ul style="margin-top: 0.5rem;">
+                                    <li>🟢 Green (Excellent): ≥85% attendance = 10 points</li>
+                                    <li>🔵 Blue (Good): 75-84% attendance = 8 points</li>
+                                    <li>🟡 Yellow (Average): 50-74% attendance = 5 points</li>
+                                    <li>🔴 Red (Poor): <50% attendance = 0 points</li>
+                                    <li>⚪ Gray: Not registered yet</li>
+                                </ul>
+                            </li>
+                            <li><strong>Search & Filter:</strong> Use the sidebar to find specific students or filter by performance</li>
+                        </ul>
+                    </div>
+
+                    <div class="guide-section" style="margin-top: 20px;">
+                        <h3 style="color: #667eea;">🎫 Token Management</h3>
+                        <ul style="line-height: 1.8;">
+                            <li>Generate a new token at the start of class</li>
+                            <li>Display the 6-digit code to students (projector/board)</li>
+                            <li>Regular tokens expire in <strong>5 minutes</strong></li>
+                            <li>Test tokens valid for <strong>24 hours</strong></li>
+                            <li>View all token history with "View Complete Token History"</li>
+                            <li>Check token status: Active (green) / Expired (red) / Inactive (gray)</li>
+                        </ul>
+                    </div>
+
+                    <div class="guide-section" style="margin-top: 20px;">
+                        <h3 style="color: #667eea;">👥 Student Management</h3>
+                        <ul style="line-height: 1.8;">
+                            <li><strong>Registration Status:</strong> Students must register before marking attendance</li>
+                            <li><strong>Test Students:</strong> Pre-configured for testing:
+                                <ul style="margin-top: 0.5rem;">
+                                    <li>UIN: 999999991 | Password: test123</li>
+                                    <li>UIN: 999999992 | Password: test123</li>
+                                    <li>UIN: 999999993 (puffyboo) | Must register first</li>
+                                </ul>
+                            </li>
+                            <li><strong>Unregistered Students:</strong> Show with yellow border in dashboard - they need to complete registration</li>
+                        </ul>
+                    </div>
+
+                    <div class="guide-section" style="margin-top: 20px;">
+                        <h3 style="color: #667eea;">📈 Reports & Export</h3>
+                        <ul style="line-height: 1.8;">
+                            <li>Excel export includes separate columns for test and regular sessions</li>
+                            <li>Only regular sessions count toward final grading</li>
+                            <li>Export includes: UIN, Name, Total Attended, Percentage, Grade Points</li>
+                            <li>Recent attendances show last 10 student check-ins</li>
+                        </ul>
+                    </div>
+
+                    <div class="guide-section" style="margin-top: 20px; background: #fff3cd; padding: 15px; border-radius: 8px; border-left: 4px solid #ffc107;">
+                        <h3 style="color: #856404;">⚠️ Important Notes</h3>
+                        <ul style="line-height: 1.8; margin-bottom: 0;">
+                            <li>Students can only mark attendance once per session</li>
+                            <li>Attendance cannot be modified after marking</li>
+                            <li>Test sessions are excluded from final grade calculation</li>
+                            <li>Dashboard auto-refreshes every 30 seconds</li>
+                            <li>Students need exact name match from Canvas to register</li>
+                        </ul>
+                    </div>
+
+                    <div class="guide-section" style="margin-top: 20px; background: #d4edda; padding: 15px; border-radius: 8px; border-left: 4px solid #28a745;">
+                        <h3 style="color: #155724;">✅ Best Practices</h3>
+                        <ul style="line-height: 1.8; margin-bottom: 0;">
+                            <li>Generate token at start of class, not before</li>
+                            <li>Keep token visible for 3-4 minutes</li>
+                            <li>Use test sessions for demos and practice</li>
+                            <li>Export attendance weekly for backup</li>
+                            <li>Check unregistered students regularly</li>
+                            <li>Monitor live dashboard during class</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
             <button onclick="logout()" class="btn btn-danger">Logout</button>
         </div>
     </div>

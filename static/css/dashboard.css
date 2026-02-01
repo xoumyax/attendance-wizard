@@ -226,3 +226,23 @@
         position: relative;
     }
 }
+
+/* Admin Guide Styling */
+.guide-section {
+    margin-bottom: 1.5rem;
+}
+
+.guide-section h3 {
+    margin-bottom: 0.8rem;
+    font-size: 1.1rem;
+}
+
+.guide-section ul,
+.guide-section ol {
+    margin-left: 1.5rem;
+    color: #555;
+}
+
+.guide-section li {
+    margin: 0.5rem 0;
+}
