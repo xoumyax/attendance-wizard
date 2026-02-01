@@ -90,6 +90,48 @@ def get_dashboard_stats(
         recent_attendances=recent_attendances
     )
 
+@router.get("/students/grades", response_model=List[schemas.StudentStats])
+def get_all_student_grades(
+    admin: str = Depends(get_current_admin),
+    db: Session = Depends(get_db)
+):
+    """Get grades and statistics for all students."""
+    students = db.query(models.Student).order_by(models.Student.name).all()
+    
+    # Get all regular sessions (exclude test sessions from grading)
+    regular_sessions = db.query(models.Session).filter(
+        models.Session.is_test_session == False
+    ).all()
+    total_regular_sessions = len(regular_sessions)
+    
+    student_stats = []
+    for student in students:
+        # Count attendances for regular sessions only
+        attended_regular = db.query(models.Attendance).join(
+            models.Session
+        ).filter(
+            models.Attendance.student_id == student.id,
+            models.Session.is_test_session == False
+        ).count()
+        
+        # Calculate attendance percentage and grade
+        if total_regular_sessions > 0:
+            attendance_percentage = (attended_regular / total_regular_sessions) * 100
+            grade_points = utils.calculate_grade(attendance_percentage)
+        else:
+            attendance_percentage = 0.0
+            grade_points = 0
+        
+        student_stats.append(schemas.StudentStats(
+            uin=student.uin,
+            name=student.name,
+            total_sessions=total_regular_sessions,
+            attended_sessions=attended_regular,
+            attendance_percentage=round(attendance_percentage, 2),
+            grade_points=grade_points
+        ))
+    
+    return student_stats
 
 @router.post("/sessions/create-test")
 def create_test_sessions(

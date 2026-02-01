@@ -1,0 +1,228 @@
+/* ============================================================================
+   Dashboard-specific Styles
+   ============================================================================ */
+
+.dashboard-layout {
+    display: flex;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.dashboard-main {
+    flex: 1;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+.dashboard-sidebar {
+    width: 420px;
+    background: white;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+}
+
+.sidebar-header {
+    padding: 1.5rem;
+    border-bottom: 2px solid #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.sidebar-header h2 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.btn-refresh {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: all 0.3s;
+}
+
+.btn-refresh:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(180deg);
+}
+
+.sidebar-filters {
+    padding: 1rem;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.sidebar-filters input,
+.sidebar-filters select {
+    width: 100%;
+    padding: 0.6rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+.sidebar-stats {
+    padding: 1rem;
+    background: #f0f7ff;
+    display: flex;
+    justify-content: space-around;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.mini-stat {
+    text-align: center;
+}
+
+.mini-stat .stat-label {
+    font-size: 0.75rem;
+    color: #666;
+    display: block;
+}
+
+.mini-stat .stat-value {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #667eea;
+}
+
+.student-grades-list {
+    padding: 0.5rem;
+}
+
+.student-grade-card {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 0.8rem;
+    transition: all 0.3s;
+}
+
+.student-grade-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+.student-grade-card.unregistered {
+    opacity: 0.6;
+    border-left: 4px solid #ffc107;
+}
+
+.student-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.student-name {
+    font-weight: bold;
+    color: #333;
+    font-size: 0.95rem;
+}
+
+.student-uin {
+    font-size: 0.8rem;
+    color: #666;
+    display: block;
+    margin-top: 0.2rem;
+}
+
+.grade-badge {
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.85rem;
+}
+
+.grade-badge.excellent {
+    background: #d4edda;
+    color: #155724;
+}
+
+.grade-badge.good {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+.grade-badge.average {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.grade-badge.poor {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.grade-badge.unregistered {
+    background: #e2e3e5;
+    color: #383d41;
+}
+
+.student-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid #f0f0f0;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-item .label {
+    font-size: 0.7rem;
+    color: #999;
+}
+
+.stat-item .value {
+    font-weight: bold;
+    color: #333;
+}
+
+.attendance-bar {
+    height: 6px;
+    background: #e0e0e0;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: 0.5rem;
+}
+
+.attendance-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    transition: width 0.3s;
+}
+
+@media (max-width: 1200px) {
+    .dashboard-sidebar {
+        width: 320px;
+    }
+}
+
+@media (max-width: 968px) {
+    .dashboard-layout {
+        flex-direction: column;
+    }
+    
+    .dashboard-sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+}

@@ -14,6 +14,10 @@ window.addEventListener('load', () => {
     loadDashboard();
     loadSessions();
     loadSettings();
+    loadStudentGrades();
+    
+    // Auto-refresh grades every 30 seconds
+    setInterval(loadStudentGrades, 30000);
 });
 
 // Load dashboard statistics
@@ -29,6 +33,7 @@ async function loadDashboard() {
         
         if (response.ok) {
             document.getElementById('totalStudents').textContent = data.total_students;
+            document.getElementById('registeredStudents').textContent = `${data.total_registered_students} registered`;
             document.getElementById('totalSessions').textContent = data.total_sessions;
             document.getElementById('totalAttendances').textContent = data.total_attendances;
             
@@ -391,6 +396,158 @@ async function viewTokenHistory() {
 // Close token history modal
 function closeTokenHistory() {
     document.getElementById('tokenHistoryModal').style.display = 'none';
+}
+
+// Close token history modal
+function closeTokenHistory() {
+    document.getElementById('tokenHistoryModal').style.display = 'none';
+}
+
+// ============================================================================
+// Live Student Grades
+// ============================================================================
+
+let allStudentGrades = [];
+
+// Load student grades
+async function loadStudentGrades() {
+    try {
+        const response = await fetch('/api/admin/students/grades', {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+            allStudentGrades = data;
+            displayStudentGrades(data);
+            updateAverageStats(data);
+        } else {
+            document.getElementById('studentGradesList').innerHTML = '<p class="empty-state">Failed to load grades</p>';
+        }
+    } catch (error) {
+        document.getElementById('studentGradesList').innerHTML = '<p class="empty-state">Network error</p>';
+        console.error('Grades error:', error);
+    }
+}
+
+// Display student grades
+function displayStudentGrades(students) {
+    const container = document.getElementById('studentGradesList');
+    
+    if (students.length === 0) {
+        container.innerHTML = '<p class="empty-state" style="padding: 2rem; text-align: center;">No students found</p>';
+        return;
+    }
+    
+    let html = '';
+    students.forEach(student => {
+        const isRegistered = student.attendance_percentage > 0 || student.attended_sessions > 0;
+        const gradeClass = getGradeClass(student.attendance_percentage);
+        const gradeLabel = getGradeLabel(student.grade_points, student.attendance_percentage);
+        
+        html += `
+            <div class="student-grade-card ${!isRegistered ? 'unregistered' : ''}">
+                <div class="student-header">
+                    <div>
+                        <div class="student-name">${student.name}</div>
+                        <span class="student-uin">UIN: ${student.uin}</span>
+                    </div>
+                    <div class="grade-badge ${gradeClass}">${gradeLabel}</div>
+                </div>
+                <div class="student-stats">
+                    <div class="stat-item">
+                        <span class="label">Attended</span>
+                        <span class="value">${student.attended_sessions}/${student.total_sessions}</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="label">Percentage</span>
+                        <span class="value">${student.attendance_percentage.toFixed(1)}%</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="label">Grade</span>
+                        <span class="value">${student.grade_points}/10</span>
+                    </div>
+                </div>
+                <div class="attendance-bar">
+                    <div class="attendance-fill" style="width: ${student.attendance_percentage}%"></div>
+                </div>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+}
+
+// Get grade class based on percentage
+function getGradeClass(percentage) {
+    if (percentage >= 85) return 'excellent';
+    if (percentage >= 75) return 'good';
+    if (percentage >= 50) return 'average';
+    if (percentage > 0) return 'poor';
+    return 'unregistered';
+}
+
+// Get grade label
+function getGradeLabel(points, percentage) {
+    if (percentage === 0) return 'Not Registered';
+    if (points === 10) return '10pts (A)';
+    if (points === 8) return '8pts (B)';
+    if (points === 5) return '5pts (C)';
+    return '0pts (F)';
+}
+
+// Update average statistics
+function updateAverageStats(students) {
+    if (students.length === 0) {
+        document.getElementById('avgAttendance').textContent = '0%';
+        document.getElementById('avgGrade').textContent = '0';
+        return;
+    }
+    
+    const totalAttendance = students.reduce((sum, s) => sum + s.attendance_percentage, 0);
+    const totalGrade = students.reduce((sum, s) => sum + s.grade_points, 0);
+    
+    const avgAttendance = (totalAttendance / students.length).toFixed(1);
+    const avgGrade = (totalGrade / students.length).toFixed(1);
+    
+    document.getElementById('avgAttendance').textContent = `${avgAttendance}%`;
+    document.getElementById('avgGrade').textContent = `${avgGrade}/10`;
+}
+
+// Filter students
+function filterStudents() {
+    const searchTerm = document.getElementById('studentSearch').value.toLowerCase();
+    const filterType = document.getElementById('gradeFilter').value;
+    
+    let filtered = allStudentGrades.filter(student => {
+        // Search filter
+        const matchesSearch = student.name.toLowerCase().includes(searchTerm) || 
+                            student.uin.includes(searchTerm);
+        
+        if (!matchesSearch) return false;
+        
+        // Grade filter
+        if (filterType === 'all') return true;
+        if (filterType === 'registered') return student.attendance_percentage > 0 || student.attended_sessions > 0;
+        if (filterType === 'unregistered') return student.attendance_percentage === 0 && student.attended_sessions === 0;
+        if (filterType === 'excellent') return student.attendance_percentage >= 85;
+        if (filterType === 'good') return student.attendance_percentage >= 75 && student.attendance_percentage < 85;
+        if (filterType === 'average') return student.attendance_percentage >= 50 && student.attendance_percentage < 75;
+        if (filterType === 'poor') return student.attendance_percentage > 0 && student.attendance_percentage < 50;
+        
+        return true;
+    });
+    
+    displayStudentGrades(filtered);
+}
+
+// Refresh grades
+function refreshGrades() {
+    loadStudentGrades();
+    showAlert('Grades refreshed', 'success');
 }
 
 // Logout

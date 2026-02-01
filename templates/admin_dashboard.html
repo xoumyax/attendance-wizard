@@ -5,33 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Attendance Wizard</title>
     <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/dashboard.css">
 </head>
 <body>
-    <div class="dashboard-container">
-        <div class="container">
-            <div class="header">
-                <div class="wizard-icon">⚡</div>
-                <h1>Admin Dashboard</h1>
-                <p class="subtitle" id="adminName">Loading...</p>
-            </div>
+    <div class="dashboard-layout">
+        <!-- Main Content -->
+        <div class="dashboard-main">
+            <div class="container">
+                <div class="header">
+                    <div class="wizard-icon">⚡</div>
+                    <h1>Admin Dashboard</h1>
+                    <p class="subtitle" id="adminName">Loading...</p>
+                </div>
 
-            <div id="alertBox"></div>
+                <div id="alertBox"></div>
 
-            <!-- Statistics Cards -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <h3>Total Students</h3>
-                    <div class="stat-value" id="totalStudents">0</div>
+                <!-- Statistics Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Students</h3>
+                        <div class="stat-value" id="totalStudents">0</div>
+                        <small id="registeredStudents">0 registered</small>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Sessions</h3>
+                        <div class="stat-value" id="totalSessions">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Attendances</h3>
+                        <div class="stat-value" id="totalAttendances">0</div>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <h3>Total Sessions</h3>
-                    <div class="stat-value" id="totalSessions">0</div>
-                </div>
-                <div class="stat-card">
-                    <h3>Total Attendances</h3>
-                    <div class="stat-value" id="totalAttendances">0</div>
-                </div>
-            </div>
 
             <!-- Testing Mode Toggle -->
             <div class="card">
@@ -107,6 +111,43 @@
             <button onclick="logout()" class="btn btn-danger">Logout</button>
         </div>
     </div>
+
+    <!-- Right Sidebar - Live Student Grades -->
+    <div class="dashboard-sidebar">
+        <div class="sidebar-header">
+            <h2>📊 Live Student Grades</h2>
+            <button onclick="refreshGrades()" class="btn-refresh" title="Refresh grades">🔄</button>
+        </div>
+        
+        <div class="sidebar-filters">
+            <input type="text" id="studentSearch" placeholder="🔍 Search by name or UIN..." onkeyup="filterStudents()">
+            <select id="gradeFilter" onchange="filterStudents()">
+                <option value="all">All Students</option>
+                <option value="registered">Registered Only</option>
+                <option value="unregistered">Unregistered</option>
+                <option value="excellent">Excellent (≥85%)</option>
+                <option value="good">Good (75-84%)</option>
+                <option value="average">Average (50-74%)</option>
+                <option value="poor">Poor (<50%)</option>
+            </select>
+        </div>
+
+        <div class="sidebar-stats">
+            <div class="mini-stat">
+                <span class="stat-label">Average Attendance:</span>
+                <span class="stat-value" id="avgAttendance">0%</span>
+            </div>
+            <div class="mini-stat">
+                <span class="stat-label">Average Grade:</span>
+                <span class="stat-value" id="avgGrade">0</span>
+            </div>
+        </div>
+
+        <div id="studentGradesList" class="student-grades-list">
+            <div class="spinner"></div>
+        </div>
+    </div>
+</div>
 
     <!-- Token History Modal -->
     <div id="tokenHistoryModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; overflow-y: auto;">
